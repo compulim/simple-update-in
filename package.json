@@ -3,6 +3,7 @@
   "version": "1.0.0-0",
   "description": "",
   "main": "lib/index.js",
+  "files": "lib/**/*",
   "scripts": {
     "build": "babel --out-dir lib src --ignore **/*.spec.js,**/*.test.js",
     "clean": "npx rimraf lib",

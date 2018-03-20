@@ -2,7 +2,8 @@
   "presets": [
     ["env", {
       "targets": {
-        "node": "9"
+        "node": "9",
+        "uglify": true
       }
     }],
     "stage-3"
