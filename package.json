@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "gulp-exec": "^3.0.1",
-    "jest": "^22.4.2"
+    "jest": "^22.4.2",
+    "last-commit-log": "^1.0.3"
   }
 }
