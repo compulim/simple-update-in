@@ -4,7 +4,7 @@ A lightweight `updateIn` for immutable objects.
 
 We love [ImmutableJS](https://facebook.github.io/immutable-js). But sometimes, we want to start something from small. Thus, we created this package with zero dependencies.
 
-Under the cover, we use Rest Operator to do most of the heavylifting.
+Under the [cover](src/index.js), we use Rest Operator to do most of the heavylifting.
 
 # Install
 
