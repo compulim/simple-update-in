@@ -17,7 +17,11 @@ For active development (`master` branch), run `npm install simple-update-in@mast
 We share similar signature as [ImmutableJS.updateIn](https://facebook.github.io/immutable-js/docs/#/Map/updateIn):
 
 ```js
-updateIn(target: Array|Map, path: (Number|String)[], updater?: (value: any) => any)
+updateIn(
+  target: Array|Map,
+  path: (Number|String)[],
+  updater?: (value: any) => any
+)
 ```
 
 To make `updateIn` efficient, especially, when paired with React. It will return a mixed deep/shallow clone of the `target`. It only deep clone on objects that it modified along the `path`, and shallow clone objects that it did not modify.
