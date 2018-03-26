@@ -110,15 +110,22 @@ const actual = updateIn(from, ['one', 'two'], 1.2);
 expect(actual).toEqual({ one: { two: 1.2 } });
 ```
 
-## How about adding an item in an array?
+## Adding an item to array
 
-Adding an item in an array is different than "upsert"-ing in a map. As we want to keep the learning curve very low, thus, we don't want to introduce syntax to do the insertion.
-
-You can use the following code to insert an item with Rest Operator:
+You can use special index value `-1` to indicate an append to the array.
 
 ```js
-const from = { numbers: ['zero', 'one'] };
-const actual = updateIn(from, ['numbers'], array => [...array, 'two']);
+const from = [0, 1];
+const actual = updateIn(from, [-1], 2);
+
+expect(actual).toEqual([0, 1, 2]);
+```
+
+There is no support on prepend or insertion, however, you can use Rest Operator for array manipulation.
+
+```js
+const from = { numbers: ['one', 'two'] };
+const actual = updateIn(from, ['numbers'], array => ['zero', ...array]);
 
 expect(actual).toEqual({ numbers: ['zero', 'one', 'two'] });
 ```

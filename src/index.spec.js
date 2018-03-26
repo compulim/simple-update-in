@@ -161,3 +161,11 @@ test('incompatible type convert string to map', () => {
   expect(from).not.toBe(actual);
   expect(actual).toEqual({ one: 1 });
 });
+
+test('append to array', () => {
+  const from = [0, 1, 2];
+  const actual = updateIn(from, [-1], () => 3);
+
+  expect(from).not.toBe(actual);
+  expect(actual).toEqual([0, 1, 2, 3]);
+});

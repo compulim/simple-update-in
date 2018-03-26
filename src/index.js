@@ -18,7 +18,11 @@ export default function setIn(obj, path, updater) {
     obj = obj ? obj.slice() : [];
 
     if (updater || path.length) {
-      obj[accessor] = setIn(value, path, updater);
+      if (accessor === -1) {
+        obj.push(updater());
+      } else {
+        obj[accessor] = setIn(value, path, updater);
+      }
     } else {
       obj.splice(accessor, 1);
     }
