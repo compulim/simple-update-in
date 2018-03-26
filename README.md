@@ -79,6 +79,37 @@ const actual = updateIn(from, [1]);
 expect(actual).toEqual(['zero', 'two']);
 ```
 
+## Automatic expansion
+
+```js
+const from = {};
+const actual = updateIn(from, ['one', 'two'], 1.2);
+
+expect(actual).toEqual({ one: { two: 1.2 } });
+```
+
+## Replace incompatible types
+
+If incompatible types is found along the walk, they will be replaced. For example, in the following example, an `Array` is replaced by a `Map`.
+
+```js
+const from = [0, 1, 2];
+const actual = updateIn(from, ['one'], 1);
+
+expect(actual).toEqual({ one: 1 });
+```
+
+> In the path, `'one'` is a string, it implies that user want a `Map` instead of `Array`
+
+It will also replace `number` with `Map`.
+
+```js
+const from = { one: 1 };
+const actual = updateIn(from, ['one', 'two'], 1.2);
+
+expect(actual).toEqual({ one: { two: 1.2 } });
+```
+
 ## How about adding an item in an array?
 
 Adding an item in an array is different than "upsert"-ing in a map. As we want to keep the learning curve very low, thus, we don't want to introduce syntax to do the insertion.

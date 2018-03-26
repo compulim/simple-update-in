@@ -98,3 +98,66 @@ test('mix array/map', () => {
   expect(from[1]).toBe(actual[1]);
   expect(actual).toEqual([{ one: 1, three: 30 }, { two: 2 }]);
 });
+
+test('expand undefined as map', () => {
+  const from = undefined;
+  const actual = updateIn(from, ['one'], () => 1);
+
+  expect(actual).toHaveProperty('one', 1);
+});
+
+test('expand undefined as array', () => {
+  const from = undefined;
+  const actual = updateIn(from, [1], () => 1);
+
+  expect(actual).toEqual([, 1]);
+});
+
+test('expand map', () => {
+  const from = { two: { three: 2.3 } };
+  const actual = updateIn(from, ['one', 'two'], () => 1.2);
+
+  expect(from).not.toBe(actual);
+  expect(actual).toHaveProperty('one', { two: 1.2 });
+  expect(actual.two).toBe(from.two);
+});
+
+test('expand array', () => {
+  const from = [0, 1];
+  const actual = updateIn(from, [3], () => 3);
+
+  expect(from).not.toBe(actual);
+  expect(actual).toEqual([0, 1, , 3]);
+});
+
+test('incompatible type convert map to array', () => {
+  const from = { one: 1 };
+  const actual = updateIn(from, [1], () => 1);
+
+  expect(from).not.toBe(actual);
+  expect(actual).toEqual([, 1]);
+});
+
+test('incompatible type convert string to array', () => {
+  const from = '123';
+  const actual = updateIn(from, [1], () => 1);
+
+  expect(from).not.toBe(actual);
+  expect(actual).toEqual([, 1]);
+});
+
+test('incompatible type convert array to map', () => {
+  const from = [0];
+  const actual = updateIn(from, ['one'], () => 1);
+
+  expect(from).not.toBe(actual);
+  expect(actual).toEqual({ one: 1 });
+});
+
+test('incompatible type convert string to map', () => {
+  const from = '123';
+  const actual = updateIn(from, ['one'], () => 1);
+
+  expect(from).not.toBe(actual);
+  expect(actual).toEqual({ one: 1 });
+});

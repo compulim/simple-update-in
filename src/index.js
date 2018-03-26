@@ -6,10 +6,16 @@ export default function setIn(obj, path, updater) {
   path = path.slice();
 
   const accessor = path.shift();
-  const value = obj[accessor];
+  let value = typeof obj !== 'undefined' && obj[accessor];
 
-  if (Array.isArray(obj)) {
-    obj = obj.slice();
+  if (typeof accessor === 'string' && (typeof obj !== 'object' || Array.isArray(obj))) {
+    obj = {};
+  } else if (typeof accessor === 'number' && !Array.isArray(obj)) {
+    obj = [];
+  }
+
+  if (typeof accessor === 'number') {
+    obj = obj ? obj.slice() : [];
 
     if (updater || path.length) {
       obj[accessor] = setIn(value, path, updater);
