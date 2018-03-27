@@ -15,7 +15,7 @@ export default function setIn(obj, path, updater) {
   }
 
   if (typeof accessor === 'number') {
-    obj = obj ? obj.slice() : [];
+    obj = obj && obj.slice();
 
     if (updater || path.length) {
       if (accessor === -1) {
