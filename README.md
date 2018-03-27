@@ -1,8 +1,8 @@
 # simple-update-in
 
-[![Build Status](https://travis-ci.org/compulim/simple-update-in.svg?branch=master)](https://travis-ci.org/compulim/simple-update-in)
-
 A lightweight `updateIn` for immutable objects.
+
+[![Build Status](https://travis-ci.org/compulim/simple-update-in.svg?branch=master)](https://travis-ci.org/compulim/simple-update-in)
 
 We love [ImmutableJS](https://facebook.github.io/immutable-js). But sometimes, we want to start something from small. Thus, we created this package with zero dependencies.
 
