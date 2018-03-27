@@ -1,4 +1,6 @@
-# simple-update-in [![Build Status](https://travis-ci.org/compulim/simple-update-in.svg?branch=master)](https://travis-ci.org/compulim/simple-update-in)
+# simple-update-in
+
+[![Build Status](https://travis-ci.org/compulim/simple-update-in.svg?branch=master)](https://travis-ci.org/compulim/simple-update-in)
 
 A lightweight `updateIn` for immutable objects.
 
