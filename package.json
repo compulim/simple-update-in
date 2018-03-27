@@ -25,6 +25,9 @@
     "url": "https://github.com/compulim/simple-update-in/issues"
   },
   "homepage": "https://github.com/compulim/simple-update-in#readme",
+  "jest": {
+    "collectCoverage": true
+  },
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
