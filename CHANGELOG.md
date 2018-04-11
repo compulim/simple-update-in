@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- If after `updater` result in nothing change (triple-equal `===`), will return untouched
+- `updater` returned `undefined` will
+
+### Fixed
+- Updating `[1, 2]` with `[-1, 0]` set to `'Hello'` should return `[1, 2, ['Hello']]` instead of `[1, 2, 'Hello']`
 
 ## [1.1.1]
 ### Fixed

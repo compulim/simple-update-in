@@ -169,3 +169,87 @@ test('append to array', () => {
   expect(from).not.toBe(actual);
   expect(actual).toEqual([0, 1, 2, 3]);
 });
+
+test('append to array 2', () => {
+  const from = [0, 1, 2];
+  const actual = updateIn(from, [-1, 0, 0], () => 3);
+
+  expect(from).not.toBe(actual);
+  expect(actual).toEqual([0, 1, 2, [[3]]]);
+});
+
+test('modifying undefined in map', () => {
+  const from = { one: 1 };
+  const actual = updateIn(from, ['two', 'three'], value => value && value * 10);
+
+  expect(from).toBe(actual);
+});
+
+test('modifying undefined in array', () => {
+  const from = [0, 1, 2, 3];
+  const actual = updateIn(from, [4], value => value && value * 10);
+
+  expect(from).toBe(actual);
+});
+
+test('untouched in map', () => {
+  const from = { one: 1 };
+  const actual = updateIn(from, ['one'], value => value);
+
+  expect(from).toBe(actual);
+});
+
+test('untouched in array', () => {
+  const from = [0, 1, 2];
+  const actual = updateIn(from, [1], value => value);
+
+  expect(from).toBe(actual);
+});
+
+test('removing non-existing key in map', () => {
+  const from = { one: 1 };
+  const actual = updateIn(from, ['two']);
+
+  expect(from).toBe(actual);
+});
+
+test('removing non-existing key in array', () => {
+  const from = [0];
+  const actual = updateIn(from, [1]);
+
+  expect(from).toBe(actual);
+});
+
+test('removing using undefined in map', () => {
+  const from = { one: 1 };
+  const actual = updateIn(from, ['one'], value => undefined);
+
+  expect(actual).toEqual({});
+});
+
+test('removing using undefined in array', () => {
+  const from = [0];
+  const actual = updateIn(from, [0], value => undefined);
+
+  expect(actual).toEqual([]);
+});
+
+test('incompatible type and untouched map', () => {
+  const from = { one: 1 };
+  const actual = updateIn(from, [0], value => undefined);
+
+  expect(actual).toEqual([]);
+})
+
+test('incompatible type and untouched array', () => {
+  const from = [0];
+  const actual = updateIn(from, ['one'], value => undefined);
+
+  expect(actual).toEqual({});
+})
+
+test('path not array', () => {
+  expect(() => {
+    updateIn({}, 'not valid path');
+  }).toThrow();
+});

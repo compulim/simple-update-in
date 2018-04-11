@@ -28,6 +28,8 @@ updateIn(
 
 To make `updateIn` efficient, especially, when paired with React. It will return a mixed deep/shallow clone of the `target`. It only deep clone on objects that it modified along the `path`, and shallow clone objects that it did not modify.
 
+Like other immutable framework, `updater` is expected to return a new object if there is a change. If the update do not result in a change (triple-equal `===`), then, the original object is returned.
+
 ## Example
 
 Just like ImmutableJS, we want to make both `Array` and `Map` a first-class citizen. To work on a map, use a `string` as key. For arrays, use a `number` as key.
@@ -60,7 +62,7 @@ expect(actual).toEqual({ one: [1.1, 'one point two', 1.3], two: [2] });
 
 ## Remove a key
 
-You can also use `updateIn` to remove a key by passing a falsy value to the `updater` argument.
+You can also use `updateIn` to remove a key by passing a falsy value to the `updater` argument, or return `undefined`.
 
 ```js
 const from = { one: 1, two: 2 };
@@ -72,6 +74,10 @@ expect(actual).not.toBe(from);
 expect(actual).not.toHaveProperty('two');
 ```
 
+> When removing a non-existing key, the original object will be returned.
+
+The sample code above also works with `updater` returning `undefined`, for example, `updateIn(from, ['two'], () => undefined)`.
+
 ## Remove an item in array
 
 ```js
@@ -81,6 +87,8 @@ const actual = updateIn(from, [1]);
 expect(actual).toEqual(['zero', 'two']);
 ```
 
+> Also for `updater` returning `undefined`
+
 ## Automatic expansion
 
 ```js
@@ -89,6 +97,8 @@ const actual = updateIn(from, ['one', 'two'], 1.2);
 
 expect(actual).toEqual({ one: { two: 1.2 } });
 ```
+
+> If the `updater` return `undefined`, the object will be untouched.
 
 ## Replace incompatible types
 
@@ -112,16 +122,29 @@ const actual = updateIn(from, ['one', 'two'], 1.2);
 expect(actual).toEqual({ one: { two: 1.2 } });
 ```
 
+### Corner case
+
+If the target value is of incompatible type, we will convert it to correct type before setting it. In the following sample, the actual value is an empty map instead of the original array.
+
+```js
+const from = [0, 1, 2];
+const actual = updateIn(from, ['one']);
+
+expect(actual).toEqual({});
+```
+
 ## Adding an item to array
 
 You can use special index value `-1` to indicate an append to the array.
 
 ```js
 const from = [0, 1];
-const actual = updateIn(from, [-1], 2);
+const actual = updateIn(from, [-1], () => 2);
 
 expect(actual).toEqual([0, 1, 2]);
 ```
+
+> If `updater` returned `undefined`, the value will not be appended.
 
 There is no support on prepend or insertion, however, you can use Rest Operator for array manipulation.
 
