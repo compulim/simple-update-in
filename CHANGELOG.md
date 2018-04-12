@@ -7,12 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - If after `updater` result in nothing change (triple-equal `===`), will return untouched
-- `updater` returned `undefined` will
+- `updater` returned `undefined` will be treated as removing the item
 
 ### Fixed
-- Updating `[1, 2]` with `[-1, 0]` set to `'Hello'` should return `[1, 2, ['Hello']]` instead of `[1, 2, 'Hello']`
+- Append not creating sub-structure correctly
+  - `updateIn([1, 2], [-1, 0], 'Hello')` should return `[1, 2, ['Hello']]` instead of `[1, 2, 'Hello']`
 
-## [1.1.1]
+## [1.1.1] - 2018-04-06
 ### Fixed
 - Move `babel` and `gulp` into `devDependencies`
 

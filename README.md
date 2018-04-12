@@ -16,14 +16,16 @@ For active development (`master` branch), run `npm install simple-update-in@mast
 
 # How to use
 
+For example, `obj.one.two = 1.2`, call `updateIn(obj, ['one', 'two'], 1.2)`. It will return a new object with changes in deep clone.
+
 We share similar signature as [ImmutableJS.updateIn](https://facebook.github.io/immutable-js/docs/#/Map/updateIn):
 
 ```js
-updateIn(
-  target: Array|Map,
+updateIn<T: Array|Map>(
+  target: T,
   path: (Number|String)[],
   updater?: (value: any) => any
-)
+): T
 ```
 
 To make `updateIn` efficient, especially, when paired with React. It will return a mixed deep/shallow clone of the `target`. It only deep clone on objects that it modified along the `path`, and shallow clone objects that it did not modify.
