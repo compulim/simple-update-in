@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.2.0] - 2018-04-14
 ### Added
 - If after `updater` result in nothing change (triple-equal `===`), will return untouched
 - `updater` returned `undefined` will be treated as removing the item
