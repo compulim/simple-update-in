@@ -35,9 +35,6 @@
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-3": "^6.24.1",
-    "gulp": "^3.9.1",
-    "gulp-exec": "^3.0.1",
-    "jest": "^22.4.3",
-    "last-commit-log": "^1.0.3"
+    "jest": "^22.4.3"
   }
 }
