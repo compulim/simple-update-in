@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.3.0] - 2018-08-17
 ### Added
 - Support predicate function
   - `updateIn([1, 2, 3, 4, 5], [v => v % 2], v => v * 10)` will return `[10, 2, 30, 4, 50]`
