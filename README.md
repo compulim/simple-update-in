@@ -157,6 +157,30 @@ const actual = updateIn(from, ['numbers'], array => ['zero', ...array]);
 expect(actual).toEqual({ numbers: ['zero', 'one', 'two'] });
 ```
 
+## Using predicate
+
+For path accessor, instead of `number` and `string`, you can also use `function`.
+
+Predicate for array has signature of `(value, index) => truthy/falsy`. And for map, `(value, key) => truthy/falsy`.
+
+```js
+const from = [1, 2, 3, 4, 5];
+const actual = updateIn(from, [value => value % 2], value => value * 10);
+
+expect(actual).toEqual([10, 2, 30, 4, 50]);
+```
+
+### Branching with predicate
+
+You can also use predicate to update multiple subsets at the same time.
+
+```js
+const from = [{ v: 1 }, { v: 2 }, { v: 3 }];
+const actual = updateIn(from, [() => true, 'v'], v => v * 10);
+
+expect(actual).toEqual([{ v: 10 }, { v: 20 }, { v: 30 }]);
+```
+
 # Contributions
 
 Like us? [Star](https://github.com/compulim/simple-update-in/stargazers) us.

@@ -253,3 +253,70 @@ test('path not array', () => {
     updateIn({}, 'not valid path');
   }).toThrow();
 });
+
+test('update array using predicate', () => {
+  const from = [1, 2, 3, 4, 5];
+  const actual = updateIn(from, [(value, index) => (value % 2 === 0) && index % 2], v => v * 10);
+
+  expect(actual).toEqual([1, 20, 3, 40, 5]);
+});
+
+test('update map using predicate', () => {
+  const from = { abc: 123, def: 456, ghi: 789 };
+  const actual = updateIn(from, [(v, k) => v % 2 && (k === 'abc' || k === 'ghi')], v => v * 10);
+
+  expect(actual).toEqual({ abc: 1230, def: 456, ghi: 7890 });
+});
+
+test('update array/map using multiple predicates', () => {
+  const from = { one: [1.1, 1.2, 1.3], two: [2.1, 2.2, 2.3] };
+  const actual = updateIn(from, [() => true, v => v === 1.2 || v === 2.2], v => v * 10);
+
+  expect(actual).toEqual({ one: [1.1, 12, 1.3], two: [2.1, 22, 2.3] });
+});
+
+test('update array using predicate and without changes', () => {
+  const from = [1, 2, 3, 4, 5];
+  const actual = updateIn(from, [() => false], () => 0);
+
+  expect(actual).toBe(from);
+});
+
+test('update map using predicate and without changes', () => {
+  const from = { abc: 123, def: 456, ghi: 789 };
+  const actual = updateIn(from, [() => false], () => 0);
+
+  expect(actual).toBe(from);
+});
+
+test('array auto-creation using predicate', () => {
+  const from = [[1.1], [2.2]];
+  const actual = updateIn(from, [() => true, 1], () => 'fin');
+
+  expect(actual).toEqual([[1.1, 'fin'], [2.2, 'fin']]);
+});
+
+test('map auto-creation using predicate', () => {
+  const from = { abc: {}, def: {} };
+  const actual = updateIn(from, [() => true, 'value'], () => 123);
+
+  expect(actual).toEqual({ abc: { value: 123 }, def: { value: 123 } });
+});
+
+test('array partial update using predicate', () => {
+  const from = [{}, {}, {}];
+  const actual = updateIn(from, [(_, index) => index === 0, 'value'], () => 123);
+
+  expect(actual).toEqual([{ value: 123 }, {}, {}]);
+  expect(actual[1]).toBe(from[1]);
+  expect(actual[2]).toBe(from[2]);
+});
+
+test('map partial update using predicate', () => {
+  const from = { abc: {}, def: {}, ghi: {} };
+  const actual = updateIn(from, [(_, key) => key === 'abc', 'value'], () => 123);
+
+  expect(actual).toEqual({ abc: { value: 123 }, def: {}, ghi: {} });
+  expect(actual.def).toBe(from.def);
+  expect(actual.ghi).toBe(from.ghi);
+});

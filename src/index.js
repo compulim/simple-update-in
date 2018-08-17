@@ -9,8 +9,28 @@ export default function setIn(obj, path, updater) {
 
   path = path.slice();
 
-  const accessor = path.shift();
+  let accessor = path.shift();
+
+  if (typeof accessor === 'function') {
+    if (Array.isArray(obj)) {
+      obj.forEach((value, index) => {
+        if (accessor.call(obj, value, index)) {
+          obj = setIn(obj, [index, ...path], updater);
+        }
+      });
+    } else {
+      Object.keys(obj).forEach(key => {
+        if (accessor.call(obj, obj[key], key)) {
+          obj = setIn(obj, [key, ...path], updater);
+        }
+      });
+    }
+
+    return obj;
+  }
+
   const value = typeof obj !== 'undefined' && obj[accessor];
+
   let nextObj = obj;
 
   if (typeof accessor === 'string' && (typeof nextObj !== 'object' || Array.isArray(nextObj))) {
