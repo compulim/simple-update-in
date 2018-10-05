@@ -181,6 +181,24 @@ const actual = updateIn(from, [() => true, 'v'], v => v * 10);
 expect(actual).toEqual([{ v: 10 }, { v: 20 }, { v: 30 }]);
 ```
 
+### Non-existing key/index with predicate
+
+Since it is impossible to guess if the predicate is performing on an array or map. [automatic expansion](#automatic-expansion) will not be performed if the key/index does not exists. Nevertheless, even we expand it into an empty array or map, it will not be enumerated thru the predicate since the new item is empty. Thus, nothing will change.
+
+```js
+const from = {};
+const actual = updateIn(from, ['Hello', () => true], () => 'World!']);
+
+expect(actual).toBe(from);
+```
+
+```js
+const from = [];
+const actual = updateIn(from, [0, () => true], () => 'Aloha']);
+
+expect(actual).toBe(from);
+```
+
 # Contributions
 
 Like us? [Star](https://github.com/compulim/simple-update-in/stargazers) us.
