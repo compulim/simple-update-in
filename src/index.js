@@ -18,7 +18,7 @@ export default function setIn(obj, path, updater) {
           obj = setIn(obj, [index, ...path], updater);
         }
       });
-    } else {
+    } else if (obj) {
       Object.keys(obj).forEach(key => {
         if (accessor.call(obj, obj[key], key)) {
           obj = setIn(obj, [key, ...path], updater);

@@ -320,3 +320,21 @@ test('map partial update using predicate', () => {
   expect(actual.def).toBe(from.def);
   expect(actual.ghi).toBe(from.ghi);
 });
+
+test('array with non-existing index followed by a predicate', () => {
+  const from = [];
+  const actual = updateIn(from, [0, () => true], () => 1);
+
+  // Since "abc" does not exist in the map, based on the predicate, we cannot predict whether it will be an array or map.
+  // Either way, the predicate will not able to match anything, thus, it will be no-op.
+  expect(actual).toBe(from);
+});
+
+test('map with non-existing key followed by a predicate', () => {
+  const from = {};
+  const actual = updateIn(from, ['abc', () => true], () => 1);
+
+  // Since "abc" does not exist in the map, based on the predicate, we cannot predict whether it will be an array or map.
+  // Either way, the predicate will not able to match anything, thus, it will be no-op.
+  expect(actual).toBe(from);
+});
