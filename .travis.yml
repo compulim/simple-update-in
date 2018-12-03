@@ -1,36 +1,42 @@
 language: node_js
 
 node_js:
-  - "10"
-  - "11"
+- "10"
+- "11"
 
 before_script:
-  - npm run build
+- npm run build
+
+script:
+- npm test -- --coverageReporters=lcov --coverageReporters=text
+- npm run coveralls
 
 before_deploy:
-  - git config --local user.name "William Wong"
-  - git config --local user.email "compulim@hotmail.com"
-  - npx version-from-git --travis
+- git config --local user.name "William Wong"
+- git config --local user.email "compulim@hotmail.com"
+- npx version-from-git --travis
 
 deploy:
-  - provider: npm
-    api_key:
-      secure: "F6RF78YwLMgiMCKHX8dYbVSCoOQq6h+RpzysoprWEzx3SXat2mF/7YDYX0A7oQ+1obZZuV5L0SNUIVDjvM2fDzYe/3bjNNZ1O/jIy0o62nb2Hr4tJnDh07UkF5JghRUoUlTc3+GcSWv81jyW0s6YAeU78+U8gwKfQhiiQ4YOwH+tixbfOi0gn5tfTkQyqqaeSGXZMehG4rFoThLfjo184FUkO6WS4vXd8DfSbwtu/GKVDh7HTYluy456AoSZyWcqxqLaIMHU12EmXcecjBpeu2x4WXkrpKKGrGeQ//s/nFjcE7Go5h3Ex9Ywtc+yGNGdFwkMwzLdICzb14Dt1LLzBlozmq/GGCmlbXF6TS/2KM3GejcbbUQ/xb/BtEmmDA0DR/VXHWbiPZJczkmZqNYU5x0XEJkfv/dnVrg6KXO1VCyreflTbFCymwrZRj8CP25xlnPNkRXptOJfUdCmC3tzNan+AGucZ8PdEbLOQm0OjRF5NFTzXC7NW5Q6iE4MHj2hlvHkWScnkmBsx2ITnc3E4PRl/y0xlr/z3ycrwyF19uA4s9yAnWeDiqgenTQpWe4v4zsQtr0VKHt3BGtz+0VZ/5NAyyFR1hod5Q8WMMGkPHj6rpjvFtMYRcVsuDA1C24Nun0qA00wX7Fu9y2pFnv1IKMp5XZk2epdnAsTZxG5ysk="
-    email: "compulim@hotmail.com"
-    on:
-      branch: master
-    skip_cleanup: true
-    tag: master
-  - provider: npm
-    api_key:
-      secure: "F6RF78YwLMgiMCKHX8dYbVSCoOQq6h+RpzysoprWEzx3SXat2mF/7YDYX0A7oQ+1obZZuV5L0SNUIVDjvM2fDzYe/3bjNNZ1O/jIy0o62nb2Hr4tJnDh07UkF5JghRUoUlTc3+GcSWv81jyW0s6YAeU78+U8gwKfQhiiQ4YOwH+tixbfOi0gn5tfTkQyqqaeSGXZMehG4rFoThLfjo184FUkO6WS4vXd8DfSbwtu/GKVDh7HTYluy456AoSZyWcqxqLaIMHU12EmXcecjBpeu2x4WXkrpKKGrGeQ//s/nFjcE7Go5h3Ex9Ywtc+yGNGdFwkMwzLdICzb14Dt1LLzBlozmq/GGCmlbXF6TS/2KM3GejcbbUQ/xb/BtEmmDA0DR/VXHWbiPZJczkmZqNYU5x0XEJkfv/dnVrg6KXO1VCyreflTbFCymwrZRj8CP25xlnPNkRXptOJfUdCmC3tzNan+AGucZ8PdEbLOQm0OjRF5NFTzXC7NW5Q6iE4MHj2hlvHkWScnkmBsx2ITnc3E4PRl/y0xlr/z3ycrwyF19uA4s9yAnWeDiqgenTQpWe4v4zsQtr0VKHt3BGtz+0VZ/5NAyyFR1hod5Q8WMMGkPHj6rpjvFtMYRcVsuDA1C24Nun0qA00wX7Fu9y2pFnv1IKMp5XZk2epdnAsTZxG5ysk="
-    email: "compulim@hotmail.com"
-    on:
-      tags: true
-    skip_cleanup: true
-  - provider: releases
-    api_key:
-      secure: "cJlUHL9x/04mPANekBtNec+PxX4QsMXosapnT+bpxPOZq3u5Wr13OkYvcCjWi3B6u5LVdaxDrqF6xHtotHtT96RCSzmh0r8ffOdLhuJ2dADjlKgMgYCasgXBOnPaWErcVgYUz6vbQ+wzqALx8cmB4cPMAuXOcQmOetfU951ntZIccn47Z6Ddd1lRDG6wxDk+qCGewcHgbs/ic8b0bSJEkBCMdtLbCEv6ODT882HQT3/Jd3HN5oL4E6s57hcsSI+wVLsHILmoCndC5elfHpNxYs2kRxEZXRjWmzIuqLiOueBCk4BXsV2bXWwZdlOD168b8im3+aGSV/XOvkXlivLC5YsyAaQX6SarTsPOPzwZHwKl7A+gdENr15dLLOt6yn8arFTqRLs+mK0aeqNzUK+BU1e+9MyqDh+lq6nI+J5SSUvlfN52ElvnKe1UFUPlUE5RkW9BOosAzpxmzwvpx/EGP6Dkt+8Iw6XhyV5y3ALXcGZhiGqDj7xjZ8sju5cbq82wkOFWOAFNg5oroDRfTVviu74ckQlEpsdoiVH7Igom8xg2ba67dIEt1wJT5HBs1cymmCLlOIBwCF9BCeLTJpBp8hDt0Xi0g42+KeppR78vJ0ObXL1vWGSOs9Wlbu6sbeC1eSEyVQ9vYXFtmW3qM6hnjRfuStttU95r3E8D39FPDYQ="
-    on:
-      tags: true
-    skip_cleanup: true
+- provider: npm
+  api_key:
+    secure: "F6RF78YwLMgiMCKHX8dYbVSCoOQq6h+RpzysoprWEzx3SXat2mF/7YDYX0A7oQ+1obZZuV5L0SNUIVDjvM2fDzYe/3bjNNZ1O/jIy0o62nb2Hr4tJnDh07UkF5JghRUoUlTc3+GcSWv81jyW0s6YAeU78+U8gwKfQhiiQ4YOwH+tixbfOi0gn5tfTkQyqqaeSGXZMehG4rFoThLfjo184FUkO6WS4vXd8DfSbwtu/GKVDh7HTYluy456AoSZyWcqxqLaIMHU12EmXcecjBpeu2x4WXkrpKKGrGeQ//s/nFjcE7Go5h3Ex9Ywtc+yGNGdFwkMwzLdICzb14Dt1LLzBlozmq/GGCmlbXF6TS/2KM3GejcbbUQ/xb/BtEmmDA0DR/VXHWbiPZJczkmZqNYU5x0XEJkfv/dnVrg6KXO1VCyreflTbFCymwrZRj8CP25xlnPNkRXptOJfUdCmC3tzNan+AGucZ8PdEbLOQm0OjRF5NFTzXC7NW5Q6iE4MHj2hlvHkWScnkmBsx2ITnc3E4PRl/y0xlr/z3ycrwyF19uA4s9yAnWeDiqgenTQpWe4v4zsQtr0VKHt3BGtz+0VZ/5NAyyFR1hod5Q8WMMGkPHj6rpjvFtMYRcVsuDA1C24Nun0qA00wX7Fu9y2pFnv1IKMp5XZk2epdnAsTZxG5ysk="
+  email: "compulim@hotmail.com"
+  on:
+    branch: master
+  skip_cleanup: true
+  tag: master
+
+- provider: npm
+  api_key:
+    secure: "F6RF78YwLMgiMCKHX8dYbVSCoOQq6h+RpzysoprWEzx3SXat2mF/7YDYX0A7oQ+1obZZuV5L0SNUIVDjvM2fDzYe/3bjNNZ1O/jIy0o62nb2Hr4tJnDh07UkF5JghRUoUlTc3+GcSWv81jyW0s6YAeU78+U8gwKfQhiiQ4YOwH+tixbfOi0gn5tfTkQyqqaeSGXZMehG4rFoThLfjo184FUkO6WS4vXd8DfSbwtu/GKVDh7HTYluy456AoSZyWcqxqLaIMHU12EmXcecjBpeu2x4WXkrpKKGrGeQ//s/nFjcE7Go5h3Ex9Ywtc+yGNGdFwkMwzLdICzb14Dt1LLzBlozmq/GGCmlbXF6TS/2KM3GejcbbUQ/xb/BtEmmDA0DR/VXHWbiPZJczkmZqNYU5x0XEJkfv/dnVrg6KXO1VCyreflTbFCymwrZRj8CP25xlnPNkRXptOJfUdCmC3tzNan+AGucZ8PdEbLOQm0OjRF5NFTzXC7NW5Q6iE4MHj2hlvHkWScnkmBsx2ITnc3E4PRl/y0xlr/z3ycrwyF19uA4s9yAnWeDiqgenTQpWe4v4zsQtr0VKHt3BGtz+0VZ/5NAyyFR1hod5Q8WMMGkPHj6rpjvFtMYRcVsuDA1C24Nun0qA00wX7Fu9y2pFnv1IKMp5XZk2epdnAsTZxG5ysk="
+  email: "compulim@hotmail.com"
+  on:
+    tags: true
+  skip_cleanup: true
+
+- provider: releases
+  api_key:
+    secure: "cJlUHL9x/04mPANekBtNec+PxX4QsMXosapnT+bpxPOZq3u5Wr13OkYvcCjWi3B6u5LVdaxDrqF6xHtotHtT96RCSzmh0r8ffOdLhuJ2dADjlKgMgYCasgXBOnPaWErcVgYUz6vbQ+wzqALx8cmB4cPMAuXOcQmOetfU951ntZIccn47Z6Ddd1lRDG6wxDk+qCGewcHgbs/ic8b0bSJEkBCMdtLbCEv6ODT882HQT3/Jd3HN5oL4E6s57hcsSI+wVLsHILmoCndC5elfHpNxYs2kRxEZXRjWmzIuqLiOueBCk4BXsV2bXWwZdlOD168b8im3+aGSV/XOvkXlivLC5YsyAaQX6SarTsPOPzwZHwKl7A+gdENr15dLLOt6yn8arFTqRLs+mK0aeqNzUK+BU1e+9MyqDh+lq6nI+J5SSUvlfN52ElvnKe1UFUPlUE5RkW9BOosAzpxmzwvpx/EGP6Dkt+8Iw6XhyV5y3ALXcGZhiGqDj7xjZ8sju5cbq82wkOFWOAFNg5oroDRfTVviu74ckQlEpsdoiVH7Igom8xg2ba67dIEt1wJT5HBs1cymmCLlOIBwCF9BCeLTJpBp8hDt0Xi0g42+KeppR78vJ0ObXL1vWGSOs9Wlbu6sbeC1eSEyVQ9vYXFtmW3qM6hnjRfuStttU95r3E8D39FPDYQ="
+  on:
+    tags: true
+  skip_cleanup: true
