@@ -1,4 +1,6 @@
 export default function (obj, path, updater) {
+  validatePath(path);
+
   const paths = getPaths(obj, path);
 
   for (let path of paths) {
@@ -12,8 +14,10 @@ export default function (obj, path, updater) {
   return obj;
 }
 
-export async function asyncUpdateIn(obj, path, updater) {
-  const paths = getPaths(obj, path);
+export async function updateInAsync(obj, path, updater) {
+  validatePath(path);
+
+  const paths = await getPathsAsync(obj, path);
 
   for (let path of paths) {
     obj = setValue(
@@ -26,11 +30,13 @@ export async function asyncUpdateIn(obj, path, updater) {
   return obj;
 }
 
-function getPaths(obj, path) {
+function validatePath(path) {
   if (!Array.isArray(path)) {
     throw new Error('path must be an array');
   }
+}
 
+function getPaths(obj, path) {
   if (!path.length) {
     return;
   }
@@ -38,24 +44,50 @@ function getPaths(obj, path) {
   const [accessor, ...nextPath] = path;
 
   if (typeof accessor === 'function') {
+    const results = [];
+
     if (Array.isArray(obj)) {
-      return obj.reduce((results, value, index) => {
-        accessor.call(obj, value, index) && results.push(...getPaths(obj, [index, ...nextPath]));
-
-        return results;
-      }, []);
-    } else if (obj) {
-      return Object.keys(obj).reduce((results, key) => {
-        accessor.call(obj, obj[key], key) && results.push(...getPaths(obj, [key, ...nextPath]));
-
-        return results;
-      }, []);
+      for (let index = 0, { length } = obj; index < length; index++) {
+        accessor.call(obj, obj[index], index) && results.push(...getPaths(obj, [index, ...nextPath]));
+      }
     } else {
-      return [];
+      for (let key in obj || {}) {
+        accessor.call(obj, obj[key], key) && results.push(...getPaths(obj, [key, ...nextPath]));
+      }
     }
+
+    return results;
   }
 
   const result = getPaths(typeof obj !== 'undefined' && obj[accessor], nextPath);
+
+  return result ? result.map(result => [accessor, ...result]) : [[accessor]];
+}
+
+async function getPathsAsync(obj, path) {
+  if (!path.length) {
+    return;
+  }
+
+  const [accessor, ...nextPath] = path;
+
+  if (typeof accessor === 'function') {
+    const results = [];
+
+    if (Array.isArray(obj)) {
+      for (let index = 0, { length } = obj; index < length; index++) {
+        (await accessor.call(obj, obj[index], index)) && results.push(...await getPathsAsync(obj, [index, ...nextPath]));
+      }
+    } else {
+      for (let key in obj || {}) {
+        (await accessor.call(obj, obj[key], key)) && results.push(...await getPathsAsync(obj, [key, ...nextPath]));
+      }
+    }
+
+    return results;
+  }
+
+  const result = await getPathsAsync(typeof obj !== 'undefined' && obj[accessor], nextPath);
 
   return result ? result.map(result => [accessor, ...result]) : [[accessor]];
 }

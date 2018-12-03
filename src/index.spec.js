@@ -1,4 +1,4 @@
-import updateIn, { asyncUpdateIn } from './index';
+import updateIn, { updateInAsync } from './index';
 
 test('set in flat map', () => {
   const from = { abc: 123, def: 456 };
@@ -339,9 +339,9 @@ test('map with non-existing key followed by a predicate', () => {
   expect(actual).toBe(from);
 });
 
-test('update map using Promise', async () => {
+test('update map using Promise updater', async () => {
   const from = { abc: 123, def: 456 };
-  const actual = await asyncUpdateIn(from, ['xyz'], () => Promise.resolve(789));
+  const actual = await updateInAsync(from, ['xyz'], () => Promise.resolve(789));
 
   expect(from).not.toBe(actual);
   expect(actual).toEqual({
@@ -353,8 +353,24 @@ test('update map using Promise', async () => {
 
 test('remove in map using async version', async () => {
   const from = { abc: 123, def: 456 };
-  const actual = await asyncUpdateIn(from, ['def']);
+  const actual = await updateInAsync(from, ['def']);
 
   expect(from).not.toBe(actual);
   expect(actual).toEqual({ abc: 123 });
+});
+
+test('update array/map using multiple Promise predicates', async () => {
+  const from = { one: [1.1, 1.2, 1.3], two: [2.1, 2.2, 2.3] };
+  const actual = await updateInAsync(from, [() => true, v => Promise.resolve(v === 1.2 || v === 2.2)], v => Promise.resolve(v * 10));
+
+  expect(actual).toEqual({ one: [1.1, 12, 1.3], two: [2.1, 22, 2.3] });
+});
+
+test('map with non-existing key followed by a Promise predicate', async () => {
+  const from = {};
+  const actual = await updateInAsync(from, ['abc', () => Promise.resolve(true)], () => 1);
+
+  // Since "abc" does not exist in the map, based on the predicate, we cannot predict whether it will be an array or map.
+  // Either way, the predicate will not able to match anything, thus, it will be no-op.
+  expect(actual).toBe(from);
 });
