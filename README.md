@@ -23,8 +23,12 @@ We share similar signature as [ImmutableJS.updateIn](https://facebook.github.io/
 ```js
 updateIn<T: Array|Map>(
   target: T,
-  path: (Number|String)[],
-  updater?: (value: any) => any
+  path: (
+    Number|
+    String|
+    (key: (Number|String), value: any) => Promise<Boolean>|Boolean
+  )[],
+  updater?: (value: any) => Promise<any>|any
 ): T
 ```
 
