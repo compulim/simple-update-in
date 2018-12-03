@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.0.0] - 2018-12-03
 ### Added
 - Support async predicate
    - `await updateIn([1, 2, 3, 4, 5], [v => Promise.resolve(v % 2)], v => v * 10)` will return `[10, 2, 30, 4, 50]`
@@ -12,16 +14,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - `await updateIn([1, 2, 3], [0], v => Promise.resolve(v * 10))` will return `[10, 2, 3]`
 
 ### Changed
-- Add default exports for CommonJS
-- Bump
-   - `@babel/core@7.1.2`
-   - `merge@1.2.1` (via `npm audit fix`)
-   - `jest@23.6.0`
 - Use Node.js 10 and 11 for Travis CI
 
 ### Removed
 - Removed array insertion using index number of `-1`
    - This introduces API inconfirmity: `-1` could means append, prepend, or the last item
+
+## [1.4.0] - 2018-10-08
+### Changed
+- Add default exports for CommonJS
+- Bump
+   - `@babel/core@7.1.2`
+   - `merge@1.2.1` (via `npm audit fix`)
+   - `jest@23.6.0`
 
 ## [1.3.1] - 2018-10-05
 ### Fixed
