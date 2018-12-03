@@ -1,12 +1,26 @@
-export default function simpleUpdateIn(obj, path, updater) {
+export default function (obj, path, updater) {
   const paths = getPaths(obj, path);
 
   for (let path of paths) {
-    const value = getValue(obj, path);
-    let nextValue;
+    obj = setValue(
+      obj,
+      path,
+      updater ? updater(getValue(obj, path)) : undefined
+    );
+  }
 
-    nextValue = updater ? updater(value) : undefined;
-    obj = setValue(obj, path, nextValue);
+  return obj;
+}
+
+export async function asyncUpdateIn(obj, path, updater) {
+  const paths = getPaths(obj, path);
+
+  for (let path of paths) {
+    obj = setValue(
+      obj,
+      path,
+      updater ? await updater(getValue(obj, path)) : undefined
+    );
   }
 
   return obj;

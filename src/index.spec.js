@@ -1,4 +1,4 @@
-import updateIn, { getPaths } from './index';
+import updateIn, { asyncUpdateIn } from './index';
 
 test('set in flat map', () => {
   const from = { abc: 123, def: 456 };
@@ -337,4 +337,24 @@ test('map with non-existing key followed by a predicate', () => {
   // Since "abc" does not exist in the map, based on the predicate, we cannot predict whether it will be an array or map.
   // Either way, the predicate will not able to match anything, thus, it will be no-op.
   expect(actual).toBe(from);
+});
+
+test('update map using Promise', async () => {
+  const from = { abc: 123, def: 456 };
+  const actual = await asyncUpdateIn(from, ['xyz'], () => Promise.resolve(789));
+
+  expect(from).not.toBe(actual);
+  expect(actual).toEqual({
+    abc: 123,
+    def: 456,
+    xyz: 789
+  });
+});
+
+test('remove in map using async version', async () => {
+  const from = { abc: 123, def: 456 };
+  const actual = await asyncUpdateIn(from, ['def']);
+
+  expect(from).not.toBe(actual);
+  expect(actual).toEqual({ abc: 123 });
 });
