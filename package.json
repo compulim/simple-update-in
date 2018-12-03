@@ -5,6 +5,7 @@
   "browser": "dist/simple-update-in.production.min.js",
   "main": "lib/index.js",
   "files": [
+    "dist/**/*",
     "lib/**/*"
   ],
   "scripts": {
