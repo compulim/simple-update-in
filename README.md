@@ -16,7 +16,7 @@ For active development (`master` branch), run `npm install simple-update-in@mast
 
 # How to use
 
-For example, `obj.one.two = 1.2`, call `updateIn(obj, ['one', 'two'], 1.2)`. It will return a new object with changes in deep clone.
+For example, `obj.one.two = 1.2`, call `updateIn(obj, ['one', 'two'], () => 1.2)`. It will return a new object with changes in deep clone.
 
 We share similar signature as [ImmutableJS.updateIn](https://facebook.github.io/immutable-js/docs/#/Map/updateIn):
 
@@ -91,6 +91,19 @@ expect(actual).toEqual(['zero', 'two']);
 
 > Also for `updater` returning `undefined`
 
+### Asynchronous update
+
+You can also use an asynchronous updater to update the content. Instead of using the exported `default` function, you will need to use the `updateInAsync` function instead.
+
+```js
+import { updateInAsync } from 'simple-update-in';
+
+const from = { one: [1.1, 1.2, 1.3], two: [2] };
+const actual = await updateInAsync(from, ['one', 1], value => Promise.resolve('one point two'));
+
+expect(actual).toEqual({ one: [1.1, 'one point two', 1.3], two: [2] });
+```
+
 ## Automatic expansion
 
 ```js
@@ -135,7 +148,20 @@ const actual = updateIn(from, ['one']);
 expect(actual).toEqual({});
 ```
 
-## Adding an item to array
+## ~~Adding an item to array~~
+
+This feature has been removed due to inconformity of the API. `-1` could means append, prepend, or it could means last value (item at `length - 1`).
+
+For append, you can use the following code
+
+```js
+const from = [0, 1];
+const actual = updateIn(from, [], array => [...array, 2]);
+
+expect(actual).toEqual([0, 1, 2]);
+```
+
+### Removed documentation
 
 You can use special index value `-1` to indicate an append to the array.
 
@@ -197,6 +223,19 @@ const from = [];
 const actual = updateIn(from, [0, () => true], () => 'Aloha']);
 
 expect(actual).toBe(from);
+```
+
+### Asynchronous predicate
+
+You can also use asynchronous predicate. Instead of using the exported `default` function, you will need to use the `updateInAsync` function instead.
+
+```js
+import { updateInAsync } from 'simple-update-in';
+
+const from = [1, 2, 3, 4, 5];
+const actual = await updateInAsync(from, [value => Promise.resolve(value % 2)], value => value * 10);
+
+expect(actual).toEqual([10, 2, 30, 4, 50]);
 ```
 
 # Contributions

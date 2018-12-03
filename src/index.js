@@ -1,36 +1,109 @@
-export default function setIn(obj, path, updater) {
+export default function (obj, path, updater) {
+  validatePath(path);
+
+  const paths = getPaths(obj, path);
+
+  for (let path of paths) {
+    obj = setValue(
+      obj,
+      path,
+      updater ? updater(getValue(obj, path)) : undefined
+    );
+  }
+
+  return obj;
+}
+
+export async function updateInAsync(obj, path, updater) {
+  validatePath(path);
+
+  const paths = await getPathsAsync(obj, path);
+
+  for (let path of paths) {
+    obj = setValue(
+      obj,
+      path,
+      updater ? await updater(getValue(obj, path)) : undefined
+    );
+  }
+
+  return obj;
+}
+
+function validatePath(path) {
   if (!Array.isArray(path)) {
     throw new Error('path must be an array');
   }
+}
 
+function getPaths(obj, path) {
   if (!path.length) {
-    return updater(obj);
+    return;
   }
 
-  path = path.slice();
-
-  let accessor = path.shift();
+  const [accessor, ...nextPath] = path;
 
   if (typeof accessor === 'function') {
+    const results = [];
+
     if (Array.isArray(obj)) {
-      obj.forEach((value, index) => {
-        if (accessor.call(obj, value, index)) {
-          obj = setIn(obj, [index, ...path], updater);
-        }
-      });
-    } else if (obj) {
-      Object.keys(obj).forEach(key => {
-        if (accessor.call(obj, obj[key], key)) {
-          obj = setIn(obj, [key, ...path], updater);
-        }
-      });
+      for (let index = 0, { length } = obj; index < length; index++) {
+        accessor.call(obj, obj[index], index) && results.push(...getPaths(obj, [index, ...nextPath]));
+      }
+    } else {
+      for (let key in obj || {}) {
+        accessor.call(obj, obj[key], key) && results.push(...getPaths(obj, [key, ...nextPath]));
+      }
     }
 
-    return obj;
+    return results;
+  }
+
+  const result = getPaths(typeof obj !== 'undefined' && obj[accessor], nextPath);
+
+  return result ? result.map(result => [accessor, ...result]) : [[accessor]];
+}
+
+async function getPathsAsync(obj, path) {
+  if (!path.length) {
+    return;
+  }
+
+  const [accessor, ...nextPath] = path;
+
+  if (typeof accessor === 'function') {
+    const results = [];
+
+    if (Array.isArray(obj)) {
+      for (let index = 0, { length } = obj; index < length; index++) {
+        (await accessor.call(obj, obj[index], index)) && results.push(...await getPathsAsync(obj, [index, ...nextPath]));
+      }
+    } else {
+      for (let key in obj || {}) {
+        (await accessor.call(obj, obj[key], key)) && results.push(...await getPathsAsync(obj, [key, ...nextPath]));
+      }
+    }
+
+    return results;
+  }
+
+  const result = await getPathsAsync(typeof obj !== 'undefined' && obj[accessor], nextPath);
+
+  return result ? result.map(result => [accessor, ...result]) : [[accessor]];
+}
+
+function getValue(obj, path) {
+  return path.reduce((obj, accessor) => obj && obj[accessor], obj);
+}
+
+function setValue(obj, path, target) {
+  const [accessor, ...nextPath] = path;
+
+  if (!path.length) {
+    return target;
   }
 
   const value = typeof obj !== 'undefined' && obj[accessor];
-
   let nextObj = obj;
 
   if (typeof accessor === 'string' && (typeof nextObj !== 'object' || Array.isArray(nextObj))) {
@@ -40,22 +113,16 @@ export default function setIn(obj, path, updater) {
   }
 
   if (typeof accessor === 'number') {
-    if (updater || path.length) {
-      if (accessor === -1) {
-        return [...nextObj, setIn([], path, updater)];
-      }
+    if (typeof target !== 'undefined') {
+      const nextValue = setValue(value, nextPath, target);
 
-      const nextValue = setIn(value, path, updater);
+      if (nextValue === value) {
+        return obj;
+      } else {
+        nextObj = [...nextObj];
+        nextObj[accessor] = nextValue;
 
-      if (typeof nextValue !== 'undefined') {
-        if (nextValue === value) {
-          return obj;
-        } else {
-          nextObj = [...nextObj];
-          nextObj[accessor] = nextValue;
-
-          return nextObj;
-        }
+        return nextObj;
       }
     }
 
@@ -67,18 +134,16 @@ export default function setIn(obj, path, updater) {
 
     return nextObj;
   } else {
-    if (updater || path.length) {
-      const nextValue = setIn(value, path, updater);
+    if (typeof target !== 'undefined') {
+      const nextValue = setValue(value, nextPath, target);
 
-      if (typeof nextValue !== 'undefined') {
-        if (nextValue === value) {
-          return obj;
-        } else {
-          return {
-            ...nextObj,
-            [accessor]: nextValue
-          };
-        }
+      if (nextValue === value) {
+        return obj;
+      } else {
+        return {
+          ...nextObj,
+          [accessor]: nextValue
+        };
       }
     }
 
