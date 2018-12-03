@@ -1,36 +1,63 @@
-export default function setIn(obj, path, updater) {
+export default function simpleUpdateIn(obj, path, updater) {
+  const paths = getPaths(obj, path);
+
+  for (let path of paths) {
+    const value = getValue(obj, path);
+    let nextValue;
+
+    nextValue = updater ? updater(value) : undefined;
+    obj = setValue(obj, path, nextValue);
+  }
+
+  return obj;
+}
+
+function getPaths(obj, path) {
   if (!Array.isArray(path)) {
     throw new Error('path must be an array');
   }
 
   if (!path.length) {
-    return updater(obj);
+    return;
   }
 
-  path = path.slice();
-
-  let accessor = path.shift();
+  const [accessor, ...nextPath] = path;
 
   if (typeof accessor === 'function') {
     if (Array.isArray(obj)) {
-      obj.forEach((value, index) => {
-        if (accessor.call(obj, value, index)) {
-          obj = setIn(obj, [index, ...path], updater);
-        }
-      });
-    } else if (obj) {
-      Object.keys(obj).forEach(key => {
-        if (accessor.call(obj, obj[key], key)) {
-          obj = setIn(obj, [key, ...path], updater);
-        }
-      });
-    }
+      return obj.reduce((results, value, index) => {
+        accessor.call(obj, value, index) && results.push(...getPaths(obj, [index, ...nextPath]));
 
-    return obj;
+        return results;
+      }, []);
+    } else if (obj) {
+      return Object.keys(obj).reduce((results, key) => {
+        accessor.call(obj, obj[key], key) && results.push(...getPaths(obj, [key, ...nextPath]));
+
+        return results;
+      }, []);
+    } else {
+      return [];
+    }
+  }
+
+  const result = getPaths(typeof obj !== 'undefined' && obj[accessor], nextPath);
+
+  return result ? result.map(result => [accessor, ...result]) : [[accessor]];
+}
+
+function getValue(obj, path) {
+  return path.reduce((obj, accessor) => obj && obj[accessor], obj);
+}
+
+function setValue(obj, path, target) {
+  const [accessor, ...nextPath] = path;
+
+  if (!path.length) {
+    return target;
   }
 
   const value = typeof obj !== 'undefined' && obj[accessor];
-
   let nextObj = obj;
 
   if (typeof accessor === 'string' && (typeof nextObj !== 'object' || Array.isArray(nextObj))) {
@@ -40,22 +67,16 @@ export default function setIn(obj, path, updater) {
   }
 
   if (typeof accessor === 'number') {
-    if (updater || path.length) {
-      if (accessor === -1) {
-        return [...nextObj, setIn([], path, updater)];
-      }
+    if (typeof target !== 'undefined') {
+      const nextValue = setValue(value, nextPath, target);
 
-      const nextValue = setIn(value, path, updater);
+      if (nextValue === value) {
+        return obj;
+      } else {
+        nextObj = [...nextObj];
+        nextObj[accessor] = nextValue;
 
-      if (typeof nextValue !== 'undefined') {
-        if (nextValue === value) {
-          return obj;
-        } else {
-          nextObj = [...nextObj];
-          nextObj[accessor] = nextValue;
-
-          return nextObj;
-        }
+        return nextObj;
       }
     }
 
@@ -67,18 +88,16 @@ export default function setIn(obj, path, updater) {
 
     return nextObj;
   } else {
-    if (updater || path.length) {
-      const nextValue = setIn(value, path, updater);
+    if (typeof target !== 'undefined') {
+      const nextValue = setValue(value, nextPath, target);
 
-      if (typeof nextValue !== 'undefined') {
-        if (nextValue === value) {
-          return obj;
-        } else {
-          return {
-            ...nextObj,
-            [accessor]: nextValue
-          };
-        }
+      if (nextValue === value) {
+        return obj;
+      } else {
+        return {
+          ...nextObj,
+          [accessor]: nextValue
+        };
       }
     }
 
