@@ -1,4 +1,4 @@
-import updateIn from './index';
+import updateIn, { getPaths } from './index';
 
 test('set in flat map', () => {
   const from = { abc: 123, def: 456 };
@@ -162,21 +162,21 @@ test('incompatible type convert string to map', () => {
   expect(actual).toEqual({ one: 1 });
 });
 
-test('append to array', () => {
-  const from = [0, 1, 2];
-  const actual = updateIn(from, [-1], () => 3);
+// test('append to array', () => {
+//   const from = [0, 1, 2];
+//   const actual = updateIn(from, [-1], () => 3);
 
-  expect(from).not.toBe(actual);
-  expect(actual).toEqual([0, 1, 2, 3]);
-});
+//   expect(from).not.toBe(actual);
+//   expect(actual).toEqual([0, 1, 2, 3]);
+// });
 
-test('append to array 2', () => {
-  const from = [0, 1, 2];
-  const actual = updateIn(from, [-1, 0, 0], () => 3);
+// test('append to array 2', () => {
+//   const from = [0, 1, 2];
+//   const actual = updateIn(from, [-1, 0, 0], () => 3);
 
-  expect(from).not.toBe(actual);
-  expect(actual).toEqual([0, 1, 2, [[3]]]);
-});
+//   expect(from).not.toBe(actual);
+//   expect(actual).toEqual([0, 1, 2, [[3]]]);
+// });
 
 test('modifying undefined in map', () => {
   const from = { one: 1 };

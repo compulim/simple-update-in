@@ -16,7 +16,7 @@ For active development (`master` branch), run `npm install simple-update-in@mast
 
 # How to use
 
-For example, `obj.one.two = 1.2`, call `updateIn(obj, ['one', 'two'], 1.2)`. It will return a new object with changes in deep clone.
+For example, `obj.one.two = 1.2`, call `updateIn(obj, ['one', 'two'], () => 1.2)`. It will return a new object with changes in deep clone.
 
 We share similar signature as [ImmutableJS.updateIn](https://facebook.github.io/immutable-js/docs/#/Map/updateIn):
 
@@ -135,7 +135,20 @@ const actual = updateIn(from, ['one']);
 expect(actual).toEqual({});
 ```
 
-## Adding an item to array
+## ~~Adding an item to array~~
+
+This feature has been removed due to inconformity of the API. `-1` could means append, prepend, or it could means last value (item at `length - 1`).
+
+For append, you can use the following code
+
+```js
+const from = [0, 1];
+const actual = updateIn(from, [], array => [...array, 2]);
+
+expect(actual).toEqual([0, 1, 2]);
+```
+
+### Removed documentation
 
 You can use special index value `-1` to indicate an append to the array.
 
