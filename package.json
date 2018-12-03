@@ -10,7 +10,6 @@
     "build": "babel --out-dir lib src --ignore **/*.spec.js,**/*.test.js",
     "clean": "npx rimraf lib",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "versionCommit": "npx gulp-cli version-commit",
     "test": "jest"
   },
   "repository": {
