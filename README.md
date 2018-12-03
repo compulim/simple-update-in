@@ -2,7 +2,7 @@
 
 A lightweight `updateIn` for immutable objects.
 
-[![npm version](https://badge.fury.io/js/simple-update-in.svg)](https://badge.fury.io/js/simple-update-in) [![Build Status](https://travis-ci.org/compulim/simple-update-in.svg?branch=master)](https://travis-ci.org/compulim/simple-update-in)
+[![npm version](https://badge.fury.io/js/simple-update-in.svg)](https://badge.fury.io/js/simple-update-in) [![Build Status](https://travis-ci.org/compulim/simple-update-in.svg?branch=master)](https://travis-ci.org/compulim/simple-update-in) [![Coverage Status](https://coveralls.io/repos/github/compulim/simple-update-in/badge.svg?branch=feat-coveralls)](https://coveralls.io/github/compulim/simple-update-in?branch=feat-coveralls)
 
 We love [ImmutableJS](https://facebook.github.io/immutable-js). But sometimes, we want to start something from small. Thus, we created this package with zero dependencies.
 
@@ -23,8 +23,12 @@ We share similar signature as [ImmutableJS.updateIn](https://facebook.github.io/
 ```js
 updateIn<T: Array|Map>(
   target: T,
-  path: (Number|String)[],
-  updater?: (value: any) => any
+  path: (
+    Number|
+    String|
+    (key: (Number|String), value: any) => Promise<Boolean>|Boolean
+  )[],
+  updater?: (value: any) => Promise<any>|any
 ): T
 ```
 
@@ -91,7 +95,7 @@ expect(actual).toEqual(['zero', 'two']);
 
 > Also for `updater` returning `undefined`
 
-### Asynchronous update
+## Asynchronous update
 
 You can also use an asynchronous updater to update the content. Instead of using the exported `default` function, you will need to use the `updateInAsync` function instead.
 
