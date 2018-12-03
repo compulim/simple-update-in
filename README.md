@@ -95,7 +95,7 @@ expect(actual).toEqual(['zero', 'two']);
 
 > Also for `updater` returning `undefined`
 
-### Asynchronous update
+## Asynchronous update
 
 You can also use an asynchronous updater to update the content. Instead of using the exported `default` function, you will need to use the `updateInAsync` function instead.
 
