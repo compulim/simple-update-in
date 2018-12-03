@@ -28,7 +28,8 @@
   },
   "homepage": "https://github.com/compulim/simple-update-in#readme",
   "jest": {
-    "collectCoverage": true
+    "collectCoverage": true,
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
