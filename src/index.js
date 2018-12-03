@@ -1,4 +1,4 @@
-export default function (obj, path, updater) {
+export default function simpleUpdateIn(obj, path, updater) {
   validatePath(path);
 
   const paths = getPaths(obj, path);
@@ -14,7 +14,7 @@ export default function (obj, path, updater) {
   return obj;
 }
 
-export async function updateInAsync(obj, path, updater) {
+async function updateInAsync(obj, path, updater) {
   validatePath(path);
 
   const paths = await getPathsAsync(obj, path);
@@ -29,6 +29,8 @@ export async function updateInAsync(obj, path, updater) {
 
   return obj;
 }
+
+simpleUpdateIn.updateInAsync = updateInAsync;
 
 function validatePath(path) {
   if (!Array.isArray(path)) {

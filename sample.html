@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <script src="dist/simple-update-in.production.min.js"></script>
+  </head>
+  <body>
+    <script>
+      'use strict';
+
+      const { simpleUpdateIn } = window;
+      const result = simpleUpdateIn({ abc: 123, def: 456 }, ['xyz'], () => 789);
+
+      console.log(result);
+    </script>
+  </body>
+</html>

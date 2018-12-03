@@ -2,15 +2,18 @@
   "name": "simple-update-in",
   "version": "2.0.1-0",
   "description": "",
+  "browser": "dist/simple-update-in.production.min.js",
   "main": "lib/index.js",
   "files": [
     "lib/**/*"
   ],
   "scripts": {
     "build": "babel --out-dir lib src --ignore **/*.spec.js,**/*.test.js",
-    "clean": "npx rimraf lib",
+    "clean": "npx rimraf coverage dist lib",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "test": "jest"
+    "prepublishOnly": "rollup -c",
+    "test": "jest",
+    "watch": "npm run build -- --watch"
   },
   "repository": {
     "type": "git",
@@ -43,6 +46,9 @@
     "babel-jest": "^23.6.0",
     "babel-plugin-add-module-exports": "^1.0.0",
     "coveralls": "^3.0.2",
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "rollup": "^0.67.4",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-uglify": "^6.0.0"
   }
 }
