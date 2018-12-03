@@ -41,7 +41,7 @@ Like other immutable framework, `updater` is expected to return a new object if 
 You can also use in the browser via unpkg.com:
 
 ```html
-<script src="https://unpkg.com/simple-update-in/latest/dist/simple-update-in.production.min.js"></script>
+<script src="https://unpkg.com/simple-update-in/dist/simple-update-in.production.min.js"></script>
 <script>
   window.simpleUpdateIn({ abc: 123, def: 456 }, ['xyz'], () => 789);
 </script>
