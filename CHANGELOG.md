@@ -5,21 +5,31 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Support async predicate
+   - `await updateIn([1, 2, 3, 4, 5], [v => Promise.resolve(v % 2)], v => v * 10)` will return `[10, 2, 30, 4, 50]`
+- Support async update
+   - `await updateIn([1, 2, 3], [0], v => Promise.resolve(v * 10))` will return `[10, 2, 3]`
+
 ### Changed
 - Bump to `@babel/core@7.1.2` and `jest@23.6.0`
 - Add default exports for CommonJS
 
+### Removed
+- Removed array insertion using index number of `-1`
+   - This introduces API inconfirmity: `-1` could means append, prepend, or the last item
+
 ## [1.3.1] - 2018-10-05
 ### Fixed
 - Using a predicate on a non-existing key/index should not throw error and return the original value as-is
-  - `updateIn({}, ['Hello', () => true], () => 'World!'])` will return `{}`
-  - `updateIn([], [0, () => true], () => 'Aloha'])` will return `[]`
+   - `updateIn({}, ['Hello', () => true], () => 'World!'])` will return `{}`
+   - `updateIn([], [0, () => true], () => 'Aloha'])` will return `[]`
 
 ## [1.3.0] - 2018-08-17
 ### Added
 - Support predicate function
-  - `updateIn([1, 2, 3, 4, 5], [v => v % 2], v => v * 10)` will return `[10, 2, 30, 4, 50]`
-  - Predicate function can be used as branching function to update multiple subtrees in a single call
+   - `updateIn([1, 2, 3, 4, 5], [v => v % 2], v => v * 10)` will return `[10, 2, 30, 4, 50]`
+   - Predicate function can be used as branching function to update multiple subtrees in a single call
 
 ## [1.2.0] - 2018-04-14
 ### Added
@@ -28,7 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Append not creating sub-structure correctly
-  - `updateIn([1, 2], [-1, 0], 'Hello')` should return `[1, 2, ['Hello']]` instead of `[1, 2, 'Hello']`
+   - `updateIn([1, 2], [-1, 0], 'Hello')` should return `[1, 2, ['Hello']]` instead of `[1, 2, 'Hello']`
 
 ## [1.1.1] - 2018-04-06
 ### Fixed

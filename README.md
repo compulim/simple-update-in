@@ -91,6 +91,19 @@ expect(actual).toEqual(['zero', 'two']);
 
 > Also for `updater` returning `undefined`
 
+### Asynchronous update
+
+You can also use an asynchronous updater to update the content. Instead of using the exported `default` function, you will need to use the `updateInAsync` function instead.
+
+```js
+import { updateInAsync } from 'simple-update-in';
+
+const from = { one: [1.1, 1.2, 1.3], two: [2] };
+const actual = await updateInAsync(from, ['one', 1], value => Promise.resolve('one point two'));
+
+expect(actual).toEqual({ one: [1.1, 'one point two', 1.3], two: [2] });
+```
+
 ## Automatic expansion
 
 ```js
@@ -210,6 +223,19 @@ const from = [];
 const actual = updateIn(from, [0, () => true], () => 'Aloha']);
 
 expect(actual).toBe(from);
+```
+
+### Asynchronous predicate
+
+You can also use asynchronous predicate. Instead of using the exported `default` function, you will need to use the `updateInAsync` function instead.
+
+```js
+import { updateInAsync } from 'simple-update-in';
+
+const from = [1, 2, 3, 4, 5];
+const actual = await updateInAsync(from, [value => Promise.resolve(value % 2)], value => value * 10);
+
+expect(actual).toEqual([10, 2, 30, 4, 50]);
 ```
 
 # Contributions
