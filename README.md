@@ -36,6 +36,17 @@ To make `updateIn` efficient, especially, when paired with React. It will return
 
 Like other immutable framework, `updater` is expected to return a new object if there is a change. If the update do not result in a change (triple-equal `===`), then, the original object is returned.
 
+### Browser only
+
+You can also use in the browser via unpkg.com:
+
+```html
+<script src="https://unpkg.com/simple-update-in/latest/dist/simple-update-in.production.min.js"></script>
+<script>
+  window.simpleUpdateIn({ abc: 123, def: 456 }, ['xyz'], () => 789);
+</script>
+```
+
 ## Example
 
 Just like ImmutableJS, we want to make both `Array` and `Map` a first-class citizen. To work on a map, use a `string` as key. For arrays, use a `number` as key.
