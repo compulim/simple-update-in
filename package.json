@@ -17,8 +17,11 @@
     "url": "git+https://github.com/compulim/simple-update-in.git"
   },
   "keywords": [
+    "asynchronous",
     "immutable",
+    "predicate",
     "update",
+    "updater",
     "update-in"
   ],
   "author": "William Wong <compulim@hotmail.com> (http://compulim.info/)",
