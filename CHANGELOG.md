@@ -12,8 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - `await updateIn([1, 2, 3], [0], v => Promise.resolve(v * 10))` will return `[10, 2, 3]`
 
 ### Changed
-- Bump to `@babel/core@7.1.2` and `jest@23.6.0`
 - Add default exports for CommonJS
+- Bump
+   - `@babel/core@7.1.2`
+   - `merge@1.2.1` (via `npm audit fix`)
+   - `jest@23.6.0`
+- Use Node.js 10 and 11 for Travis CI
 
 ### Removed
 - Removed array insertion using index number of `-1`
