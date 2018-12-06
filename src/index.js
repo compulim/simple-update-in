@@ -99,12 +99,11 @@ function getValue(obj, path) {
 }
 
 function setValue(obj, path, target) {
-  const [accessor, ...nextPath] = path;
-
   if (!path.length) {
     return target;
   }
 
+  const [accessor, ...nextPath] = path;
   const value = typeof obj !== 'undefined' && obj[accessor];
   let nextObj = obj;
 
@@ -115,9 +114,21 @@ function setValue(obj, path, target) {
   }
 
   if (typeof accessor === 'number') {
-    if (typeof target !== 'undefined') {
-      const nextValue = setValue(value, nextPath, target);
+    const nextValue = setValue(value, nextPath, target);
 
+    if (typeof nextValue === 'undefined') {
+      if (typeof obj === 'undefined') {
+        return obj;
+      } else {
+        // If updater returned undefined or no updater at all, delete the item
+        if (accessor in nextObj) {
+          nextObj = [...nextObj];
+          nextObj.splice(accessor, 1);
+        }
+
+        return nextObj;
+      }
+    } else {
       if (nextValue === value) {
         return obj;
       } else {
@@ -127,18 +138,22 @@ function setValue(obj, path, target) {
         return nextObj;
       }
     }
-
-    // If updater returned undefined or no updater at all, delete the item
-    if (accessor in nextObj) {
-      nextObj = [...nextObj];
-      nextObj.splice(accessor, 1);
-    }
-
-    return nextObj;
   } else {
-    if (typeof target !== 'undefined') {
-      const nextValue = setValue(value, nextPath, target);
+    const nextValue = setValue(value, nextPath, target);
 
+    if (typeof nextValue === 'undefined') {
+      if (typeof obj === 'undefined') {
+        return obj;
+      } else {
+        // If updater returned undefined or no updater at all, delete the key
+        if (accessor in nextObj) {
+          nextObj = { ...nextObj };
+          delete nextObj[accessor];
+        }
+
+        return nextObj;
+      }
+    } else {
       if (nextValue === value) {
         return obj;
       } else {
@@ -148,13 +163,5 @@ function setValue(obj, path, target) {
         };
       }
     }
-
-    // If updater returned undefined or no updater at all, delete the key
-    if (accessor in nextObj) {
-      nextObj = { ...nextObj };
-      delete nextObj[accessor];
-    }
-
-    return nextObj;
   }
 }

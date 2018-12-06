@@ -45,6 +45,16 @@ test('remove in map', () => {
   expect(actual).not.toHaveProperty('three');
 });
 
+test('remove in map 2', () => {
+  const from = { odd: { one: 1, three: 3 }, even: { two: 2 } };
+  const actual = updateIn(from, ['odd', 'three']);
+
+  expect(from).not.toBe(actual);
+  expect(from.even).toBe(actual.even);
+  expect(actual).toEqual({ odd: { one: 1 }, even: { two: 2 } });
+  expect(actual).not.toHaveProperty('odd.three');
+});
+
 test('set in flat array', () => {
   const from = [0, 1, 2];
   const actual = updateIn(from, [1], () => 3);
@@ -77,6 +87,15 @@ test('remove in array', () => {
 
   expect(from).not.toBe(actual);
   expect(actual).toEqual([0, 2]);
+});
+
+test('remove in array 2', () => {
+  const from = [[1, 3], [2, 4]];
+  const actual = updateIn(from, [0, 1]);
+
+  expect(actual).not.toBe(from);
+  expect(actual[1]).toBe(from[1]);
+  expect(actual).toEqual([[1], [2, 4]]);
 });
 
 test('mix map/array', () => {
@@ -182,12 +201,12 @@ test('modifying undefined in map', () => {
   const from = { one: 1 };
   const actual = updateIn(from, ['two', 'three'], value => value && value * 10);
 
-  expect(from).toBe(actual);
+  expect(actual).toBe(from);
 });
 
 test('modifying undefined in array', () => {
   const from = [0, 1, 2, 3];
-  const actual = updateIn(from, [4], value => value && value * 10);
+  const actual = updateIn(from, [4, 5], value => value && value * 10);
 
   expect(from).toBe(actual);
 });
