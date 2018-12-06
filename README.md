@@ -25,11 +25,24 @@ updateIn<T: Array|Map>(
   target: T,
   path: (
     Number|
+    String
+  )[],
+  updater?: (value: any) => any
+): T
+```
+
+Or the asynchronous version, which you can provide an asynchronous predicate or updater:
+
+```js
+updateInAsync<T: Array|Map>(
+  target: T,
+  path: (
+    Number|
     String|
     (key: (Number|String), value: any) => Promise<Boolean>|Boolean
   )[],
   updater?: (value: any) => Promise<any>|any
-): T
+): Promise<T>
 ```
 
 To make `updateIn` efficient, especially, when paired with React. It will return a mixed deep/shallow clone of the `target`. It only deep clone on objects that it modified along the `path`, and shallow clone objects that it did not modify.
