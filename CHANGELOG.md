@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.0.1] - 2018-12-03
 ### Added
 - Emitting UMD bundle for browser
-   - `<script src="https://unpkg.com/simple-update-in/latest/dist/simple-update-in.production.min.js"></script>`
+   - `<script src="https://unpkg.com/simple-update-in/dist/simple-update-in.production.min.js"></script>`
    - `<script>window.simpleUpdateIn({ abc: 123, def: 456 }, ['xyz'], () => 789);</script>`
 
 ## [2.0.0] - 2018-12-03
