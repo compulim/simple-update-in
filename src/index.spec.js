@@ -417,23 +417,37 @@ test('map with reserved key "prototype"', () => {
   expect(from).toBe(actual);
 });
 
+test('map with partial path containing reserved key "constructor"', () => {
+  const from = {};
+  const actual = updateIn(from, ['constructor', 0], () => 0);
+
+  expect(from).toBe(actual);
+});
+
 test('map with reserved key "__proto__" via predicate', () => {
-  const from = { __proto__: 1 };
+  const from = {};
   const actual = updateIn(from, [(_, key) => key === '__proto__'], () => 0);
 
   expect(from).toBe(actual);
 });
 
 test('map with reserved key "constructor" via predicate', () => {
-  const from = { constructor: 1 };
+  const from = {};
   const actual = updateIn(from, [(_, key) => key === 'constructor'], () => 0);
 
   expect(from).toBe(actual);
 });
 
 test('map with reserved key "prototype" via predicate', () => {
-  const from = { prototype: 1 };
+  const from = {};
   const actual = updateIn(from, [(_, key) => key === 'prototype'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with partial path containing reserved key "constructor" via predicate', () => {
+  const from = {};
+  const actual = updateIn(from, [(_, key) => key === 'constructor', 0], () => 0);
 
   expect(from).toBe(actual);
 });
@@ -459,23 +473,37 @@ test('map with reserved key "prototype" in async', async () => {
   expect(from).toBe(actual);
 });
 
+test('map with partial path containing reserved key "constructor" in async', async () => {
+  const from = {};
+  const actual = await updateInAsync(from, ['constructor', 0], () => 0);
+
+  expect(from).toBe(actual);
+});
+
 test('map with reserved key "__proto__" via Promise predicate', async () => {
-  const from = { __proto__: 1 };
-  const actual = await updateIn(from, [(_, key) => Promise.resolve(key === '__proto__')], () => 0);
+  const from = {};
+  const actual = await updateInAsync(from, [(_, key) => Promise.resolve(key === '__proto__')], () => 0);
 
   expect(from).toBe(actual);
 });
 
 test('map with reserved key "constructor" via Promise predicate', async () => {
-  const from = { constructor: 1 };
-  const actual = await updateIn(from, [(_, key) => Promise.resolve(key === 'constructor')], () => 0);
+  const from = {};
+  const actual = await updateInAsync(from, [(_, key) => Promise.resolve(key === 'constructor')], () => 0);
 
   expect(from).toBe(actual);
 });
 
 test('map with reserved key "prototype" via Promise predicate', async () => {
-  const from = { prototype: 1 };
-  const actual = await updateIn(from, [(_, key) => Promise.resolve(key === 'prototype')], () => 0);
+  const from = {};
+  const actual = await updateInAsync(from, [(_, key) => Promise.resolve(key === 'prototype')], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with partial path containing reserved key "constructor" via Promise predicate', async () => {
+  const from = {};
+  const actual = await updateInAsync(from, [(_, key) => Promise.resolve(key === 'constructor'), Promise.resolve(true)], () => 0);
 
   expect(from).toBe(actual);
 });
