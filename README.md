@@ -47,7 +47,7 @@ updateInAsync<T: Array|Map>(
 
 To make `updateIn` efficient, especially, when paired with React. It will return a mixed deep/shallow clone of the `target`. It only deep clone on objects that it modified along the `path`, and shallow clone objects that it did not modify.
 
-Like other immutable framework, `updater` is expected to return a new object if there is a change. If the update do not result in a change (triple-equal `===`), then, the original object is returned.
+Like other immutable framework, `updater` is expected to return a new object if there is a change. If the update do not result in a change (via [`Object.is`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)), then, the original object is returned.
 
 ### Browser only
 
