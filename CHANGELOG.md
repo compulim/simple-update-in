@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - [`rollup@^1.17.0`](https://www.npmjs.com/package/rollup)
    - [`rollup-plugin-babel@^4.3.3`](https://www.npmjs.com/package/rollup-plugin-babel)
    - [`rollup-plugin-uglify@^6.0.2`](https://www.npmjs.com/package/rollup-plugin-uglify)
+- Use `Object.is` instead of `===` to check if value is updated or not, in PR [#21](https://github.com/compulim/simple-update-in/pull/21)
+   - `Object.is` correctly compare between `0` and `-0` (different), and `NaN` and `Number.NaN` (indifferent)
 
 ### Added
 - Will skip paths containing `__proto__`, `constructor`, and `prototype`, in PR [#19](https://github.com/compulim/simple-update-in/pull/19)

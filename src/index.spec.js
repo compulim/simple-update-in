@@ -507,3 +507,17 @@ test('map with partial path containing reserved key "constructor" via Promise pr
 
   expect(from).toBe(actual);
 });
+
+test('update 0 with -0', () => {
+  const from = [0];
+  const actual = updateIn(from, [0], () => -0);
+
+  expect(from).not.toBe(actual);
+});
+
+test('update NaN with Number.NaN', () => {
+  const from = [NaN];
+  const actual = updateIn(from, [0], () => Number.NaN);
+
+  expect(from).toBe(actual);
+});

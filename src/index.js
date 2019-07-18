@@ -139,7 +139,7 @@ function setValue(obj, path, target) {
         return nextObj;
       }
     } else {
-      if (nextValue === value) {
+      if (Object.is(nextValue, value)) {
         return obj;
       } else {
         nextObj = [...nextObj];
@@ -164,7 +164,7 @@ function setValue(obj, path, target) {
         return nextObj;
       }
     } else {
-      if (nextValue === value) {
+      if (Object.is(nextValue, value)) {
         return obj;
       } else {
         return {
