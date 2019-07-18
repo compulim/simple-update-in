@@ -21,9 +21,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - [`rollup-plugin-babel@^4.3.3`](https://www.npmjs.com/package/rollup-plugin-babel)
    - [`rollup-plugin-uglify@^6.0.2`](https://www.npmjs.com/package/rollup-plugin-uglify)
 
+### Added
+- Will skip paths containing `__proto__`, `constructor`, and `prototype`, in PR [#19](https://github.com/compulim/simple-update-in/pull/19)
+
 ## [2.0.2] - 2018-12-06
 ### Fixed
-- Fix [#16](https://github.com/compulim/simple-update-in/issues/16), parents should not be removed when `updater` is or returned `undefined`, in PR [#17](https://github.com/compulim/simple-update-in/issues/17)
+- Fix [#16](https://github.com/compulim/simple-update-in/issues/16), parents should not be removed when `updater` is or returned `undefined`, in PR [#17](https://github.com/compulim/simple-update-in/pull/17)
 
 ## [2.0.1] - 2018-12-03
 ### Added
