@@ -81,7 +81,7 @@ expect(actual.thirty).toBe(30);  // We multiplied it by 10
 
 > This is in fact an "upsert" operation.
 
-> Note: for security reason, we will not modify path containing `__proto__`, `constructor`, `prototype`.
+> Note: for security reason, we will skip paths containing `__proto__`, `constructor`, `prototype`. This includes [predicate paths](#using-predicate).
 
 ### Array in map
 
