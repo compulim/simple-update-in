@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Bump dependencies, in PR [#18](https://github.com/compulim/simple-update-in/pulls/18)
+   - [`@babel/cli@^7.5.5`](https://www.npmjs.com/package/@babel/cli)
+   - [`@babel/core@^7.5.5`](https://www.npmjs.com/package/@babel/core)
+   - [`@babel/plugin-proposal-object-rest-spread@^7.5.5`](https://www.npmjs.com/package/@babel/plugin-proposal-object-rest-spread)
+   - [`@babel/preset-env@^7.5.5`](https://www.npmjs.com/package/@babel/preset-env)
+   - [`babel-core@^7.0.0-bridge.0`](https://www.npmjs.com/package/babel-core)
+   - [`babel-jest@^24.8.0`](https://www.npmjs.com/package/babel-jest)
+   - [`babel-plugin-add-module-exports@^1.0.2`](https://www.npmjs.com/package/babel-plugin-add-module-exports)
+   - [`coveralls@^3.0.5`](https://www.npmjs.com/package/coveralls)
+   - [`jest@^24.8.0`](https://www.npmjs.com/package/jest)
+   - [`rollup@^1.17.0`](https://www.npmjs.com/package/rollup)
+   - [`rollup-plugin-babel@^4.3.3`](https://www.npmjs.com/package/rollup-plugin-babel)
+   - [`rollup-plugin-uglify@^6.0.2`](https://www.npmjs.com/package/rollup-plugin-uglify)
+
 ## [2.0.2] - 2018-12-06
 ### Fixed
 - Fix [#16](https://github.com/compulim/simple-update-in/issues/16), parents should not be removed when `updater` is or returned `undefined`, in PR [#17](https://github.com/compulim/simple-update-in/issues/17)

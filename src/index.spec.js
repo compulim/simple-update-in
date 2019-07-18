@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime';
+
 import updateIn, { updateInAsync } from './index';
 
 test('set in flat map', () => {
