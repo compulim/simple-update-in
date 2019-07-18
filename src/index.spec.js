@@ -395,3 +395,87 @@ test('map with non-existing key followed by a Promise predicate', async () => {
   // Either way, the predicate will not able to match anything, thus, it will be no-op.
   expect(actual).toBe(from);
 });
+
+test('map with reserved key "__proto__"', () => {
+  const from = {};
+  const actual = updateIn(from, ['__proto__'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "constructor"', () => {
+  const from = {};
+  const actual = updateIn(from, ['constructor'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "prototype"', () => {
+  const from = {};
+  const actual = updateIn(from, ['prototype'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "__proto__" via predicate', () => {
+  const from = { __proto__: 1 };
+  const actual = updateIn(from, [(_, key) => key === '__proto__'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "constructor" via predicate', () => {
+  const from = { constructor: 1 };
+  const actual = updateIn(from, [(_, key) => key === 'constructor'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "prototype" via predicate', () => {
+  const from = { prototype: 1 };
+  const actual = updateIn(from, [(_, key) => key === 'prototype'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "__proto__" in async', async () => {
+  const from = {};
+  const actual = await updateInAsync(from, ['__proto__'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "constructor" in async', async () => {
+  const from = {};
+  const actual = await updateInAsync(from, ['constructor'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "prototype" in async', async () => {
+  const from = {};
+  const actual = await updateInAsync(from, ['prototype'], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "__proto__" via Promise predicate', async () => {
+  const from = { __proto__: 1 };
+  const actual = await updateIn(from, [(_, key) => Promise.resolve(key === '__proto__')], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "constructor" via Promise predicate', async () => {
+  const from = { constructor: 1 };
+  const actual = await updateIn(from, [(_, key) => Promise.resolve(key === 'constructor')], () => 0);
+
+  expect(from).toBe(actual);
+});
+
+test('map with reserved key "prototype" via Promise predicate', async () => {
+  const from = { prototype: 1 };
+  const actual = await updateIn(from, [(_, key) => Promise.resolve(key === 'prototype')], () => 0);
+
+  expect(from).toBe(actual);
+});

@@ -38,6 +38,12 @@ function validatePath(path) {
   }
 }
 
+const RESERVED_KEYS = ['__proto__', 'constructor', 'prototype'];
+
+function reserved(key) {
+  return RESERVED_KEYS.includes(key);
+}
+
 function getPaths(obj, path) {
   if (!path.length) {
     return;
@@ -106,6 +112,10 @@ function setValue(obj, path, target) {
   const [accessor, ...nextPath] = path;
   const value = typeof obj !== 'undefined' && obj[accessor];
   let nextObj = obj;
+
+  if (reserved(accessor)) {
+    return obj;
+  }
 
   if (typeof accessor === 'string' && (typeof nextObj !== 'object' || Array.isArray(nextObj))) {
     nextObj = {};
