@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - [`rollup-plugin-uglify@^6.0.2`](https://www.npmjs.com/package/rollup-plugin-uglify)
 
 ### Added
-- Will not modify `__proto__`, `constructor`, and `prototype`, in PR [#19](https://github.com/compulim/simple-update-in/pull/19)
+- Will not modify paths containing `__proto__`, `constructor`, and `prototype`, in PR [#19](https://github.com/compulim/simple-update-in/pull/19)
 
 ## [2.0.2] - 2018-12-06
 ### Fixed
