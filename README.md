@@ -81,6 +81,8 @@ expect(actual.thirty).toBe(30);  // We multiplied it by 10
 
 > This is in fact an "upsert" operation.
 
+> Note: for security reason, we will not modify path containing `__proto__`, `constructor`, `prototype`.
+
 ### Array in map
 
 ```js
