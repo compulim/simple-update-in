@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.1.0] - 2019-07-18
 ### Changed
 - Bump dependencies, in PR [#18](https://github.com/compulim/simple-update-in/pulls/18)
    - [`@babel/cli@^7.5.5`](https://www.npmjs.com/package/@babel/cli)
