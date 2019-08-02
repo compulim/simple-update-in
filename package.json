@@ -1,6 +1,6 @@
 {
   "name": "simple-update-in",
-  "version": "2.1.1-0",
+  "version": "2.1.2-0",
   "description": "",
   "browser": "dist/simple-update-in.production.min.js",
   "main": "lib/index.js",
