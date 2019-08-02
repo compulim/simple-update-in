@@ -49,6 +49,8 @@ To make `updateIn` efficient, especially, when paired with React. It will return
 
 Like other immutable framework, `updater` is expected to return a new object if there is a change. If the update do not result in a change (via [`Object.is`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)), then, the original object is returned.
 
+> Polyfill for `Object.is` is adopted from [`core-js`](https://npmjs.com/package/core-js) to maintain zero dependency.
+
 ### Browser only
 
 You can also use in the browser via unpkg.com:

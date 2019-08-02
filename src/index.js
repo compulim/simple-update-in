@@ -1,3 +1,5 @@
+import objectIs from './objectIs';
+
 export default function simpleUpdateIn(obj, path, updater) {
   validatePath(path);
 
@@ -139,7 +141,7 @@ function setValue(obj, path, target) {
         return nextObj;
       }
     } else {
-      if (Object.is(nextValue, value)) {
+      if (objectIs(nextValue, value)) {
         return obj;
       } else {
         nextObj = [...nextObj];
@@ -164,7 +166,7 @@ function setValue(obj, path, target) {
         return nextObj;
       }
     } else {
-      if (Object.is(nextValue, value)) {
+      if (objectIs(nextValue, value)) {
         return obj;
       } else {
         return {
