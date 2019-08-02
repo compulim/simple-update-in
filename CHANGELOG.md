@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Fix [#24](https://github.com/compulim/simple-update-in/issues/24), polyfill `Object.is` for IE11, in PR [#XXX](https://github.com/compulim/simple-update-in/pull/XXX)
+   - Polyfill code is adopted from [`core-js`](https://npmjs.com/package/core-js) to maintain zero dependency
 
 ## [2.1.0] - 2019-07-18
 ### Changed

@@ -14,6 +14,8 @@ export default function simpleUpdateIn(obj, path, updater) {
   return obj;
 }
 
+const objectIs = Object.is || ((x, y) => x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y);
+
 async function updateInAsync(obj, path, updater) {
   validatePath(path);
 
@@ -139,7 +141,7 @@ function setValue(obj, path, target) {
         return nextObj;
       }
     } else {
-      if (Object.is(nextValue, value)) {
+      if (objectIs(nextValue, value)) {
         return obj;
       } else {
         nextObj = [...nextObj];
@@ -164,7 +166,7 @@ function setValue(obj, path, target) {
         return nextObj;
       }
     } else {
-      if (Object.is(nextValue, value)) {
+      if (objectIs(nextValue, value)) {
         return obj;
       } else {
         return {
