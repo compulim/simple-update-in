@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Changed
-- Fix [#24](https://github.com/compulim/simple-update-in/issues/24), polyfill `Object.is` for IE11, in PR [#XXX](https://github.com/compulim/simple-update-in/pull/XXX)
+- Fix [#24](https://github.com/compulim/simple-update-in/issues/24), polyfill `Object.is` for IE11, in PR [#25](https://github.com/compulim/simple-update-in/pull/25)
    - Polyfill code is adopted from [`core-js`](https://npmjs.com/package/core-js) to maintain zero dependency
 
 ## [2.1.0] - 2019-07-18
