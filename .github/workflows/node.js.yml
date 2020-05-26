@@ -78,7 +78,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: '[${{ steps.read-package-json.outputs.version }}] ${{ steps.read-package-json.outputs.date }}'
+          release_name: '[${{ steps.read-package-json.outputs.version }}] - ${{ steps.read-package-json.outputs.date }}'
           draft: true
 
       - uses: actions/upload-release-asset@v1
@@ -89,3 +89,4 @@ jobs:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ./${{ steps.read-package-json.outputs.tarball }}
           asset_name: ${{ steps.read-package-json.outputs.tarball }}
+          asset_content_type: application/octet-stream
