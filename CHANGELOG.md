@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.2.0] - 2020-05-26
+
 ### Changed
 
 - Bump dependencies, in PR [#29](https://github.com/compulim/simple-update-in/pulls/29)
