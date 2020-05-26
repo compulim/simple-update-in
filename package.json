@@ -9,12 +9,15 @@
     "lib/**/*"
   ],
   "scripts": {
-    "build": "babel --out-dir lib src --ignore **/*.spec.js,**/*.test.js",
-    "clean": "npx rimraf coverage dist lib",
+    "build": "npm run build:babel && npm run build:rollup",
+    "build:babel": "babel --out-dir lib src --ignore **/*.spec.js,**/*.test.js",
+    "build:rollup": "rollup --config",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "prepublishOnly": "rollup -c",
-    "test": "jest",
-    "watch": "npm run build -- --watch"
+    "prestart": "npm run build:babel",
+    "start": "concurrently --kill-others --names \"babel,rollup\" \"npm run start:babel\" \"npm run start:rollup\"",
+    "start:babel": "npm run build:babel -- --skip-initial-build --watch",
+    "start:rollup": "npm run build:rollup -- --watch",
+    "test": "jest --collectCoverage true"
   },
   "repository": {
     "type": "git",
@@ -41,6 +44,7 @@
     "@babel/preset-env": "^7.9.6",
     "babel-jest": "^26.0.1",
     "babel-plugin-add-module-exports": "^1.0.2",
+    "concurrently": "^5.2.0",
     "coveralls": "^3.1.0",
     "jest": "^26.0.1",
     "regenerator-runtime": "^0.13.5",

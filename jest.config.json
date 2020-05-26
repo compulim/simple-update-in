@@ -1,4 +1,3 @@
 {
-  "collectCoverage": true,
   "testEnvironment": "node"
 }
